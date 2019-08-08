@@ -24,9 +24,11 @@ class class_balancer(Sampler):
         for i in range(self.batch_num):
             
             sample=[random.sample(np.where(self.arr==i)[0].tolist(),c) for i,c in enumerate(self.counts)]
-            if len(sample)<self.bs:
-                sample=sample+random.sample(self.arr.tolist(),self.bs-len(sample))
+           
             sample=np.hstack(sample).tolist()
+            if len(sample)<self.bs:
+                
+                sample=sample+random.sample(sample,self.bs-len(sample))
             random.shuffle(sample)
             flat_batch.append(sample )
         #sample=np.hstack(sample).tolist()
